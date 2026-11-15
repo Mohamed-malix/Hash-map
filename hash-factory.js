@@ -1,9 +1,17 @@
 
 class HashClass{
 
-    constructor(){
+    constructor() {
         this.loadFactor=0.75;
         this.buckets=  new Array(16).fill(null);       
+    }
+
+    get(key) {
+        let hashKey= this.hash(key);
+        
+        if(this.buckets[hashKey]){
+            return this.buckets[hashKey];
+        }
     }
     
     hash(key) {
@@ -18,15 +26,18 @@ class HashClass{
     }
 
     set(key, value) {
-        
         const hashKey= this.hash(key);
-        if (hashKey < 0 || hashKey >= buckets.length) {
+        if (hashKey < 0 || hashKey >= this.buckets.length) {
             throw new Error("Trying to access index out of bounds");
         }
+
+        this.buckets[hashKey]= value;
+        return this.buckets[hashKey];
 
     }
 
 }
 
 let hash1= new HashClass();
-console.log(hash1.hash("Logan")%16);
+console.log(hash1.set("Logan", "Kool"));
+console.log(14/16);
