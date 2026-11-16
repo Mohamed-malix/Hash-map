@@ -3,7 +3,8 @@ class HashClass{
 
     constructor() {
         this.loadFactor=0.75;
-        this.buckets=  new Array(16).fill(null);   
+        this.buckets=  new Array(16).fill(null);
+        this.keyPair=[];   
         this.leng=0;    
     }
 
@@ -25,6 +26,7 @@ class HashClass{
         }
 
         this.buckets[hashKey]= value;
+        this.keyPair.push([key, value]);
         this.leng++;
 
         return this.buckets[hashKey];
@@ -69,6 +71,20 @@ class HashClass{
         return keysList
     }
 
+    keys() {
+
+        let keys=[];
+        this.keyPair.forEach((key) => {
+            keys.push(key[0]);
+        })
+
+        return keys;
+    }
+
+    entries() {
+        return this.keyPair;
+    }
+
     remove(key) {
         let hashKey= this.hash(key);
         
@@ -83,7 +99,8 @@ class HashClass{
 }
 
 let hash1= new HashClass();
-console.log(hash1.set("Logan", "Kool"));
-console.log(hash1.set("Me", "Super"));
-console.log(hash1.values());
-// console.log(hash1.get("Logan"));
+hash1.set("Me", "Super");
+hash1.set("Logan", "Kool");
+hash1.set("Eliet", "Outstanding");
+console.log(hash1.clear());
+console.log(hash1.entries());
