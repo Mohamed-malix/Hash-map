@@ -2,10 +2,11 @@
 class HashClass{
 
     constructor() {
-        this.loadFactor=0.75;
-        this.buckets=  new Array(16).fill(null);
-        this.keyPair=[];   
         this.leng=0;    
+        this.keyPair=[];   
+        this.loadFactor=0.75;
+        this.numBuckets=16;
+        this.buckets=  new Array(this.numBuckets).fill(null);
     }
 
     hash(key) {
@@ -21,8 +22,14 @@ class HashClass{
 
     set(key, value) {
         const hashKey= this.hash(key);
+
         if (hashKey < 0 || hashKey >= this.buckets.length) {
             throw new Error("Trying to access index out of bounds");
+        }
+
+        if(this.leng/this.numBuckets>this.loadFactor) {
+            console.log("The loadfactor exceeded the capacity!");
+            this.numBuckets*=2;
         }
 
         this.buckets[hashKey]= value;
@@ -55,8 +62,8 @@ class HashClass{
         return "key not found";
     }
 
-    clear() {
-        this.buckets.forEach((cha) => cha=null);
+    entries() {
+        return this.keyPair;
     }
 
     values() {
@@ -81,10 +88,6 @@ class HashClass{
         return keys;
     }
 
-    entries() {
-        return this.keyPair;
-    }
-
     remove(key) {
         let hashKey= this.hash(key);
         
@@ -96,11 +99,30 @@ class HashClass{
         return "key not found";
     }
 
+    clear() {
+        // this.buckets.forEach((cha) => cha=null);
+        this.buckets=  new Array(16).fill(null);
+        this.keyPair=[];   
+        this.leng=0;  
+    }
+
 }
 
-let hash1= new HashClass();
-hash1.set("Me", "Super");
-hash1.set("Logan", "Kool");
-hash1.set("Eliet", "Outstanding");
-console.log(hash1.clear());
-console.log(hash1.entries());
+let test= new HashClass();
+test.set('apple', 'red')
+test.set('banana', 'yellow')
+test.set('carrot', 'orange')
+test.set('dog', 'brown')
+test.set('elephant', 'gray')
+test.set('frog', 'green')
+test.set('grape', 'purple')
+test.set('hat', 'black')
+test.set('ice cream', 'white')
+test.set('jacket', 'blue')
+test.set('kite', 'pink')
+test.set('lion', 'golden')
+test.set('Dragon', 'Darkness')
+test.set('Dragon', 'Darkness')
+
+console.log(test.keys());
+console.log(test.length());
