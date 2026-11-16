@@ -26,11 +26,7 @@ class HashClass{
         if (hashKey < 0 || hashKey >= this.buckets.length) {
             throw new Error("Trying to access index out of bounds");
         }
-
-        if(this.leng/this.numBuckets>this.loadFactor) {
-            console.log("The loadfactor exceeded the capacity!");
-            this.numBuckets*=2;
-        }
+        this.rehash()
 
         this.buckets[hashKey]= value;
         this.keyPair.push([key, value]);
@@ -38,6 +34,20 @@ class HashClass{
 
         return this.buckets[hashKey];
 
+    }
+
+    rehash() {
+        if(this.leng/this.numBuckets>this.loadFactor) {
+
+            let temp=this.buckets;
+            this.numBuckets*=2;
+            this.buckets= new Array(this.numBuckets).fill(null);
+            for(let i=0; i<temp.length; i++){
+                this.buckets[i]=temp[i];
+            }
+
+            console.log(this.buckets);
+        }
     }
 
     get(key) {
@@ -122,7 +132,5 @@ test.set('jacket', 'blue')
 test.set('kite', 'pink')
 test.set('lion', 'golden')
 test.set('Dragon', 'Darkness')
-test.set('Dragon', 'Darkness')
 
 console.log(test.keys());
-console.log(test.length());
